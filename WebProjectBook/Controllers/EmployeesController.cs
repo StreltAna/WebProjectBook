@@ -18,7 +18,7 @@ namespace WebProjectBook.Controllers
          _dbEmployee = dbEmployee;
       }
 
-      public ActionResult Index()
+      public IActionResult Index()
       {
          return View();
       }
