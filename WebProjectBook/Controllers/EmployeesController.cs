@@ -3,82 +3,156 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebProjectBook.Data;
 using WebProjectBook.Models;
 
 namespace WebProjectBook.Controllers
 {
    public class EmployeesController : Controller
    {
-      private readonly EmployeesDbContext _dbEmployee;
-      [BindProperty]
-      public Employee Employee { get; set; }
-      public EmployeesController(EmployeesDbContext dbEmployee)
+      private readonly EmployeesDbContext _context;
+
+      public EmployeesController(EmployeesDbContext context)
       {
-         _dbEmployee = dbEmployee;
+         _context = context;
       }
 
-      public IActionResult Index()
+      // GET: Employees
+      public async Task<IActionResult> Index()
       {
-         return View();
+         var employeesDbContext = _context.Employees.Include(e => e.Department);
+         return View(await employeesDbContext.ToListAsync());
       }
 
-      public ActionResult Upsert(int? id)
+      // GET: Employees/Details/5
+      public async Task<IActionResult> Details(int? id)
       {
-         Employee = new Employee();
          if (id == null)
-         {
-            //create
-            return View(Employee);
-         }
-         //update
-         Employee = _dbEmployee.Employees.FirstOrDefault(u => u.EmployeeId == id);
-         if (Employee == null)
          {
             return NotFound();
          }
-         return View(Employee);
+
+         var employee = await _context.Employees
+             .Include(e => e.Department)
+             .FirstOrDefaultAsync(m => m.Id == id);
+         if (employee == null)
+         {
+            return NotFound();
+         }
+
+         return View(employee);
+      }
+
+      // GET: Employees/Create
+      public IActionResult Create()
+      {
+         //ViewData["Id"] = new SelectList(_context.Department, "Id", "Departmentname");
+         var model = new EmployeeViewModel()
+         {
+            Departments = new SelectList(_context.Department, "Id", "Departmentname")
+         };
+         return View(model);
       }
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public IActionResult Upsert()
+      public async Task<IActionResult> Create(EmployeeViewModel model)
       {
          if (ModelState.IsValid)
          {
-            if (Employee.EmployeeId == 0)
-            {
-               //create
-               _dbEmployee.Employees.Add(Employee);
-            }
-            else
-            {  //Edit
-               _dbEmployee.Employees.Update(Employee);
-            }
-            _dbEmployee.SaveChanges();
-            return RedirectToAction("Index");
+            model.Department = await _context.Department.FirstOrDefaultAsync(d => d.Id == model.DepartmentId);
+            _context.Add(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
          }
-         return View(Employee);
+
+         model.Departments = new SelectList(_context.Department, "Id", "Departmentname");
+         return View(model);
       }
 
-      [HttpGet]
-      public async Task<IActionResult> GetAll()
+      // GET: Employees/Edit/5
+      public async Task<IActionResult> Edit(int? id)
       {
-         return Json(new { data = await _dbEmployee.Employees.ToListAsync() });
-      }
-
-      [HttpDelete]
-      public async Task<IActionResult> Delete(int id)
-      {
-         var employeeFromDb = await _dbEmployee.Employees.FirstOrDefaultAsync(u => u.EmployeeId == id);
-         if (employeeFromDb == null)
+         if (id == null)
          {
-            return Json(new { success = false, message = "Error while Deleting" });
+            return NotFound();
          }
-         _dbEmployee.Employees.Remove(employeeFromDb);
-         await _dbEmployee.SaveChangesAsync();
-         return Json(new { success = true, message = "Delete successful" });
+
+         var employee = await _context.Employees.FindAsync(id);
+         if (employee == null)
+         {
+            return NotFound();
+         }
+         ViewData["Id"] = new SelectList(_context.Department, "Id", "Departmentname", employee.Department.Id);
+         return View(employee);
       }
-    
+
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public async Task<IActionResult> Edit(int id, [Bind("Id,Firstname,Lastname,Gender,Id")] Employee employee)
+      {
+         if (id != employee.Id)
+         {
+            return NotFound();
+         }
+
+         if (ModelState.IsValid)
+         {
+            try
+            {
+               _context.Update(employee);
+               await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+               if (!EmployeeExists(employee.Id))
+               {
+                  return NotFound();
+               }
+               else
+               {
+                  throw;
+               }
+            }
+            return RedirectToAction(nameof(Index));
+         }
+         return View(employee);
+      }
+
+      // GET: Employees/Delete/5
+      public async Task<IActionResult> Delete(int? id)
+      {
+         if (id == null)
+         {
+            return NotFound();
+         }
+
+         var employee = await _context.Employees
+             .FirstOrDefaultAsync(m => m.Id == id);
+         if (employee == null)
+         {
+            return NotFound();
+         }
+
+         return View(employee);
+      }
+
+      // POST: Employees/Delete/5
+      [HttpPost, ActionName("Delete")]
+      [ValidateAntiForgeryToken]
+      public async Task<IActionResult> DeleteConfirmed(int id)
+      {
+         var employee = await _context.Employees.FindAsync(id);
+         _context.Employees.Remove(employee);
+         await _context.SaveChangesAsync();
+         return RedirectToAction(nameof(Index));
+      }
+
+      private bool EmployeeExists(int id)
+      {
+         return _context.Employees.Any(e => e.Id == id);
+      }
    }
 }

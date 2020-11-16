@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebProjectBook.Models;
 
-namespace WebProjectBook.Models
+namespace WebProjectBook.Data
 {
    public class EmployeesDbContext : DbContext
    {
@@ -13,8 +14,12 @@ namespace WebProjectBook.Models
       }
 
 
-
+    
       public DbSet<Employee> Employees { get; set; }
+
+
+    
+      public DbSet<Department> Department { get; set; }
    }
    }
 

@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace WebProjectBook.Models
+
+namespace WebProjectBook.Data
 {
    public class BooksDbContext : DbContext
    {
@@ -13,6 +10,6 @@ namespace WebProjectBook.Models
 
       }
 
-      public DbSet<Book> Books { get; set; }
+      public DbSet<Models.Book> Books { get; set; }
    }
 }

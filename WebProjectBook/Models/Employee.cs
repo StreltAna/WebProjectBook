@@ -10,12 +10,15 @@ namespace WebProjectBook.Models
    {
     
       [Key]
-      public int EmployeeId {get; set;}
+      public int Id {get; set;}
 
       [Required]
       public string Firstname { get; set; }
       public string Lastname { get; set; }
       public string Gender { get; set; }
 
+    
+      public Department Department { get; set; }
+      
    }
 }

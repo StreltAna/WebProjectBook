@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebProjectBook.Data;
 using WebProjectBook.Models;
 
 namespace WebProjectBook.Controllers
@@ -73,10 +74,7 @@ namespace WebProjectBook.Controllers
 
       #endregion API Calls
 
-
-
-
-      // GET: BooksController/Details/5
+     // GET: BooksController/Details/5
       public ActionResult Details(int id)
       {
          return View();
