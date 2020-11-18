@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace WebProjectBook.Models
       public string Departmentnumber { get; set; }
       public string Departmentcity { get; set; }
       public  ICollection<Employee> Employees { get; set; }
-
+     
    }
 }

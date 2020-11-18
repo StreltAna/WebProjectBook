@@ -73,27 +73,32 @@ namespace WebProjectBook.Controllers
       }
 
       // GET: Employees/Edit/5
-      public async Task<IActionResult> Edit(int? id)
+      public async Task <IActionResult> Edit(int? id)
       {
          if (id == null)
          {
             return NotFound();
          }
+         var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
 
-         var employee = await _context.Employees.FindAsync(id);
-         if (employee == null)
+         var model = new EmployeeViewModel(employee)
+         {
+            
+            Departments = new SelectList(_context.Department, "Id", "Departmentname")
+         };
+         if (model == null)
          {
             return NotFound();
          }
-         ViewData["Id"] = new SelectList(_context.Department, "Id", "Departmentname", employee.Department.Id);
-         return View(employee);
+        
+         return View(model);
       }
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Edit(int id, [Bind("Id,Firstname,Lastname,Gender,Id")] Employee employee)
+      public async Task<IActionResult> Edit(int id, EmployeeViewModel model)
       {
-         if (id != employee.Id)
+         if (id != model.Id)
          {
             return NotFound();
          }
@@ -102,12 +107,12 @@ namespace WebProjectBook.Controllers
          {
             try
             {
-               _context.Update(employee);
+               _context.Update(model);
                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-               if (!EmployeeExists(employee.Id))
+               if (!EmployeeExists(model.Id))
                {
                   return NotFound();
                }
@@ -118,7 +123,7 @@ namespace WebProjectBook.Controllers
             }
             return RedirectToAction(nameof(Index));
          }
-         return View(employee);
+         return View(model);
       }
 
       // GET: Employees/Delete/5
