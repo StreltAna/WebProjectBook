@@ -1,0 +1,154 @@
+﻿/* === Allgemein ===*/
+
+
+/* Schriften */
+
+body,
+p {
+   font-family: 'Castoro', serif;
+  
+   font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-alt {
+   font-family:'Playfair Display', serif;
+}
+
+
+/* Button */
+
+.btn-round {
+   border-radius: 30px;
+
+}
+
+/*Farben*/
+.bg-overlay {
+   height: 100%;
+   width: 100%;
+   background-color: rgba(51, 51, 51, 0.9);
+   position: absolute;
+   top: 0;
+}
+
+
+/* Section */
+
+section{
+   padding:140px 0;
+
+}
+
+
+
+/* Hilfsklassen */
+
+.d-relative {
+   position: relative;
+}
+
+
+/* === Navigation ===*/
+
+nav.navbar.navbar-dark button:hover,
+nav.navbar.navbar-dark button:focus,
+nav.navbar.navbar-dark .nav-link:hover {
+   color:red;
+}
+
+/*Hero*/
+
+.hero-bg {
+   background: url(../Img/IndexPic.jpg) 50% fixed no-repeat;
+   height: 100vh;
+   background-size: cover;
+}
+
+.container{
+   height:100%;
+  
+}
+
+#home.row {
+   height: 80%;
+}
+/*About us*/
+
+.img-bg {
+   position: absolute;
+   overflow: hidden;
+   right: 0px;
+   bottom: 0px;
+   width: 50vw;
+   opacity: 0.2;
+}
+
+  /*Book*/
+.book-bg {
+   background: url('../img/bg-bohne.jpg') 50% 0 fixed no-repeat;
+   height: 100%;
+   background-size: cover;
+}
+
+.rounded-circle {
+   border: 8px solid #FFF;
+}
+.img-fluid:hover {
+   transform: scale(1.2, 1.2);
+}
+/*testimonials*/
+.testimonials-bg {
+   background: url('../img/IndexPicture.jpg') 50% 0 fixed no-repeat;
+   height: 100%;
+   background-size: cover;
+}
+
+.carousel-control-prev,
+ testimonial-carousel.carousel-control-next{
+  width: 1%; 
+
+}
+.carousel-indicators {
+   bottom: -30px;
+}
+.carousel-indicators li {
+      max-width: 10px;
+      height: 10px;
+      border-radius: 50%;
+   }
+
+/*impressionen*/
+
+.card-columns {
+   -webkit-column-gap: 0;
+   -moz-column-gap: 0;
+   column-gap: 0;
+}
+
+.card-columns .card {
+      margin-bottom: -1px;
+      border: 0;
+   }
+.card-img:hover {
+   -webkit-transform: scale(1);
+   -moz-transform: scale(1);
+   -ms-transform: scale(1);
+   -o-transform: scale(1);
+   transform: scale(1);
+}
+
+
+
+/*Footer*/
+.footer {
+   position:fixed;
+   bottom: 0px;
+   width:100%;
+   text-align:center;
+}

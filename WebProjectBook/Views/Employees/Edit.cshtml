@@ -31,7 +31,14 @@
           </div>
           <div class="form-group">
              <label asp-for="Department.Departmentname" class="control-label"></label>
+             <span asp-validation-for="Department.Departmentname" class="text-danger"></span>
              <select asp-for="DepartmentId" class="form-control" asp-items="Model.Departments"></select>
+             <select>
+                @foreach(var selectItem in Model.Departments)
+                {
+                   <option value="@selectItem.Value">@selectItem.Text</option>
+                }
+             </select>
           </div>
           <div class="form-group">
              <input type="submit" value="Save" class="btn btn-primary" />

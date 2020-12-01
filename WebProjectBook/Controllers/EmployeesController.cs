@@ -46,6 +46,7 @@ namespace WebProjectBook.Controllers
       }
 
       // GET: Employees/Create
+      //ToDo: Hinter Department Liste einen "Bitte auswählen" Eintrag hinzufügen
       public IActionResult Create()
       {
          //ViewData["Id"] = new SelectList(_context.Department, "Id", "Departmentname");
@@ -55,7 +56,7 @@ namespace WebProjectBook.Controllers
          };
          return View(model);
       }
-
+      
       [HttpPost]
       [ValidateAntiForgeryToken]
       public async Task<IActionResult> Create(EmployeeViewModel model)
@@ -105,6 +106,7 @@ namespace WebProjectBook.Controllers
 
          if (ModelState.IsValid)
          {
+
             try
             {
                _context.Update(model);
@@ -135,7 +137,7 @@ namespace WebProjectBook.Controllers
          }
 
          var employee = await _context.Employees
-             .FirstOrDefaultAsync(m => m.Id == id);
+        .FirstOrDefaultAsync(m => m.Id == id);
          if (employee == null)
          {
             return NotFound();
