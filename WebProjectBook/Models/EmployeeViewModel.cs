@@ -17,9 +17,8 @@ namespace WebProjectBook.Models
          Lastname = employee.Lastname;
          Gender = employee.Gender;
          Id = employee.Id;
-         Department = employee.Department;
+         DepartmentId = employee.DepartmentId;
       }
-      public int DepartmentId { get; set; }
-      public SelectList Departments { get; set; }
+      public IEnumerable<SelectListItem> Departments { get; set; }
    }
 }
