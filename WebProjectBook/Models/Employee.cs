@@ -17,7 +17,7 @@ namespace WebProjectBook.Models
       public string Lastname { get; set; }
       public string Gender { get; set; }
 
-    
+      public int? DepartmentId { get; set; }
       public Department Department { get; set; }
       
    }
